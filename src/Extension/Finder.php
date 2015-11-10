@@ -145,6 +145,14 @@ class Finder
         $this->manifestFileName = $manifestFileName;
     }
 
+    /*
+     * Set manifest options
+     * @param array $manifestOptions
+     */
+    public function setManifestOptions($manifestOptions) {
+        $this->manifestOptions = $manifestOptions;
+    }
+
     /**
      * Detect available extensions.
      *
