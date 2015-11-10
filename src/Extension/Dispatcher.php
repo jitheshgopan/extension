@@ -51,6 +51,8 @@ class Dispatcher implements DispatcherInterface
      */
     protected $extensions = array();
 
+    protected $functionsFileName = 'functions.php';
+
     /**
      * Construct a new Application instance.
      *
@@ -142,11 +144,11 @@ class Dispatcher implements DispatcherInterface
         $paths = array_map($generatePath, $autoload);
         $paths = array_merge(
             $paths,
-            array("source-path::src/orchestra.php", "source-path::orchestra.php")
+            array("source-path::src/" . $this->functionsFileName, "source-path::" . $this->functionsFileName)
         );
 
         // By now, extension should already exist as an extension. We should
-        // be able start orchestra.php start file on each package.
+        // be able start functions file on each package.
         foreach ($paths as $path) {
             $path = str_replace(
                 array('source-path::', 'app::/'),
@@ -188,5 +190,9 @@ class Dispatcher implements DispatcherInterface
     {
         $this->dispatcher->fire("extension.{$type}", array($name, $options));
         $this->dispatcher->fire("extension.{$type}: {$name}", array($options));
+    }
+
+    public function setFunctionsFileName($functionsFileName) {
+        $this->functionsFileName = $functionsFileName;
     }
 }

@@ -89,6 +89,16 @@ class Factory implements FactoryInterface
     }
 
     /**
+     * Get extension dispatcher.
+     *
+     * @return \Orchestra\Extension\Dispatcher
+     */
+    public function dispatcher()
+    {
+        return $this->dispatcher;
+    }
+
+    /**
      * Get an option for a given extension.
      *
      * @param  string   $name
