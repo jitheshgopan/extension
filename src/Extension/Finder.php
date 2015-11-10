@@ -234,14 +234,7 @@ class Finder
             return 'app';
         }
 
-        list($vendor, $package) = $namespace = $this->resolveExtensionNamespace($manifest);
-
-        if (is_null($vendor) && is_null($package)) {
-            return null;
-        }
-
-        // Each package should have vendor/package name pattern.
-        $name = trim(implode('/', $namespace));
+        $name = $this->resolveExtensionName($manifest);
 
         return $this->validateExtensionName($name);
     }
@@ -285,7 +278,7 @@ class Finder
      * @param  string   $manifest
      * @return array
      */
-    public function resolveExtensionNamespace($manifest)
+    public function resolveExtensionName($manifest)
     {
         $vendor   = null;
         $package  = null;
@@ -295,11 +288,10 @@ class Finder
         // Remove orchestra.json from fragment as we are only interested with
         // the two segment before it.
         if (array_pop($fragment) == 'orchestra.json') {
-            $package = array_pop($fragment);
-            $vendor  = array_pop($fragment);
+            $pluginName = array_pop($fragment);
         }
 
-        return array($vendor, $package);
+        return $pluginName;
     }
 
     /**
