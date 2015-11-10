@@ -176,7 +176,10 @@ class Finder
                 $name = (is_numeric($key) ? $this->guessExtensionNameFromManifest($manifest, $path) : $key);
 
                 if (! is_null($name)) {
-                    $extensions[$name] = $this->getManifestContents($manifest);
+                    try {
+                        $extensions[$name] = $this->getManifestContents($manifest);
+                    } catch (ManifestRuntimeException $e) {
+                    }
                 }
             }
         }
