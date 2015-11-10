@@ -41,7 +41,7 @@ class Finder
         'version'     => '>0',
         'config'      => array(),
         'autoload'    => array(),
-        'provide'     => array(),
+        'provide'     => array()
     );
 
     /**
@@ -89,10 +89,33 @@ class Finder
         // In most cases we would only need to concern with the following
         // path; application folder, vendor folders and workbench folders.
         $this->paths = array(
-            "{$app}",
+            "{$app}/*",
             "{$base}/vendor/*/*",
             "{$base}/workbench/*/*"
         );
+    }
+
+    /**
+     * Get app paths
+     *
+     * @param
+     * @return array paths
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * Set paths to finder.
+     *
+     * @param  array    $paths
+     * @return Finder
+     */
+    public function setPaths($paths)
+    {
+        $this->paths = $paths;
+        return $this;
     }
 
     /**
