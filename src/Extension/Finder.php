@@ -44,6 +44,8 @@ class Finder
         'provide'     => array()
     );
 
+    public $manifestFileName = 'manifest.json';
+
     /**
      * List of reserved name.
      *
@@ -135,6 +137,14 @@ class Finder
         return $this;
     }
 
+    /*
+     * Set manifest file name
+     * @param $manifestFileName
+     */
+    public function setManifestFileName($manifestFileName) {
+        $this->manifestFileName = $manifestFileName;
+    }
+
     /**
      * Detect available extensions.
      *
@@ -144,11 +154,11 @@ class Finder
     {
         $extensions = array();
 
-        // Loop each path to check if there orchestra.json available within
-        // the paths. We would only treat packages that include orchestra.json
+        // Loop each path to check if there manifest file available within
+        // the paths. We would only treat folders that include manifest file
         // as an Orchestra Platform extension.
         foreach ($this->paths as $key => $path) {
-            $manifests = $this->files->glob($this->resolveExtensionPath("{$path}/orchestra.json"));
+            $manifests = $this->files->glob($this->resolveExtensionPath("{$path}/" . $this->manifestFileName));
 
             // glob() method might return false if there an errors, convert
             // the result to an array.
@@ -247,7 +257,7 @@ class Finder
      */
     public function guessExtensionPath($path)
     {
-        $path = str_replace('orchestra.json', '', $path);
+        $path = str_replace($this->manifestFileName, '', $path);
         $app  = rtrim($this->config['path.app'], '/');
         $base = rtrim($this->config['path.base'], '/');
 
@@ -285,9 +295,9 @@ class Finder
         $manifest = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $manifest);
         $fragment = explode(DIRECTORY_SEPARATOR, $manifest);
 
-        // Remove orchestra.json from fragment as we are only interested with
+        // Remove manifest file name from fragment as we are only interested with
         // the two segment before it.
-        if (array_pop($fragment) == 'orchestra.json') {
+        if (array_pop($fragment) == $this->manifestFileName) {
             $pluginName = array_pop($fragment);
         }
 
